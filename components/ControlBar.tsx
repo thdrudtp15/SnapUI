@@ -4,17 +4,18 @@ import { RefObject, useEffect, useRef } from 'react';
 import styles from './ControlBar.module.css';
 
 type Props = {
-    ref: RefObject<HTMLDivElement | null>;
+    targetRef: RefObject<HTMLDivElement | null>;
 };
 
-const ControlBar = ({ ref }: Props) => {
+const ControlBar = ({ targetRef }: Props) => {
     const click = useRef<boolean>(false);
 
     const move = (e: MouseEvent) => {
+        e.preventDefault();
         const { clientX } = e;
 
-        if (!click.current || clientX < 200 || clientX > 400 || !ref.current) return;
-        ref.current.style.width = `${clientX}px`;
+        if (!click.current || clientX < 200 || clientX > 400 || !targetRef.current) return;
+        targetRef.current.style.width = `${clientX}px`;
     };
 
     const mouseUp = () => {
@@ -22,12 +23,12 @@ const ControlBar = ({ ref }: Props) => {
     };
 
     useEffect(() => {
-        window.document.addEventListener('mousemove', move);
-        window.document.addEventListener('mouseup', mouseUp);
+        window.addEventListener('mousemove', move);
+        window.addEventListener('mouseup', mouseUp);
 
         return () => {
-            window.document.removeEventListener('mousemove', move);
-            window.document.removeEventListener('mouseup', mouseUp);
+            window.removeEventListener('mousemove', move);
+            window.removeEventListener('mouseup', mouseUp);
         };
     }, []);
 
