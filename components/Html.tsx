@@ -1,6 +1,7 @@
 import styles from './Html.module.css';
+
 const Html = () => {
-    return <textarea className={styles.html}></textarea>;
+    return <div className={styles.html}></div>;
 };
 
 export default Html;

@@ -1,8 +1,8 @@
 .controlBar {
     position: absolute;
     height: 100%;
-    width: 10px;
-    background-color: coral;
+    width: 3px;
+    background-color: var(--border);
     z-index: 9999;
     top: 0;
     right: 0%;
