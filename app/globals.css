@@ -10,3 +10,7 @@ body {
 * {
     box-sizing: border-box;
 }
+
+.cm-scroller {
+    height: calc(100vh - 200px) !important;
+}

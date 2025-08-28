@@ -1,5 +1,7 @@
 import styles from './Viewer.module.css';
 
-export default function Viewer() {
-    return <div className={styles.viewer}></div>;
-}
+const Viewer = async ({ html, css }: { html: string; css: string }) => {
+    return <div className={styles.viewer} dangerouslySetInnerHTML={{ __html: html || '' }}></div>;
+};
+
+export default Viewer;
