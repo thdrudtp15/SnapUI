@@ -14,3 +14,7 @@ body {
 .cm-scroller {
     height: calc(100vh - 200px) !important;
 }
+
+.pre {
+    font-family: sans-serif;
+}

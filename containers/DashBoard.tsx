@@ -2,9 +2,15 @@
 import { useRef, useState } from 'react';
 import styles from './DashBoard.module.css';
 import ControlBar from '@/components/ControlBar';
-import Html from '@/components/Html';
+import Editor from '@/components/Editor';
 
-const DashBoard = ({ html }: { html: string }) => {
+const DashBoard = ({
+    formattedHtml,
+    formattedCss,
+}: {
+    formattedHtml: string;
+    formattedCss: string;
+}) => {
     const [select, setSelect] = useState<'html' | 'css'>('html');
 
     const dashboard = useRef<HTMLDivElement | null>(null);
@@ -27,8 +33,8 @@ const DashBoard = ({ html }: { html: string }) => {
                     Css
                 </button>
             </nav>
-            {select === 'html' && <Html html={html} />}
-            {select === 'css' && <div>css</div>}
+            {select === 'html' && <Editor queryKey="html" content={formattedHtml} />}
+            {select === 'css' && <Editor queryKey="css" content={formattedCss} />}
             <ControlBar targetRef={dashboard} />
         </div>
     );

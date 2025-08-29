@@ -5,31 +5,66 @@ import { EditorState } from '@codemirror/state';
 import { keymap, lineNumbers } from '@codemirror/view';
 import { indentWithTab } from '@codemirror/commands';
 import { html } from '@codemirror/lang-html';
-// import { javascript } from '@codemirror/lang-javascript';
+import { css } from '@codemirror/lang-css';
 import { oneDark } from '@codemirror/theme-one-dark';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { formatCss, formatHtml } from '@/utils/format';
+import { useRouter } from 'next/navigation';
 
-const Editor = ({
-    setter,
-    content,
-}: {
-    setter: Dispatch<SetStateAction<string>>;
-    content: string;
-}) => {
+const Editor = ({ content, queryKey }: { content: string; queryKey: string }) => {
     const [editorContent, setEditorContent] = useState<string>(content);
 
     const editorRef = useRef<HTMLDivElement>(null);
     const viewRef = useRef<EditorView | null>(null);
 
+    const highlighterExtension = queryKey === 'html' ? html() : css();
+
+    const router = useRouter();
+
     useEffect(() => {
+        if (!editorContent) return;
+
         const STO = setTimeout(() => {
-            setter(editorContent);
+            const params = new URLSearchParams(window.location.search);
+            if (queryKey === 'html') {
+                params.set('html', editorContent);
+            } else if (queryKey === 'css') {
+                params.set('css', editorContent);
+            }
+
+            router.push(`/?${params.toString()}`);
         }, 500);
 
         return () => {
             clearTimeout(STO);
         };
     }, [editorContent]);
+
+    const customKeyMap = keymap.of([
+        {
+            key: 'Mod-s', // Ctrl+S (Win/Linux), Cmd+S (Mac)
+            preventDefault: true,
+            run: (view) => {
+                const doc = view.state.doc.toString();
+                const save = async () => {
+                    const formatted =
+                        queryKey === 'html' ? await formatHtml(doc) : await formatCss(doc);
+                    const { selection } = view.state;
+                    view.dispatch({
+                        changes: {
+                            from: 0,
+                            to: view.state.doc.length,
+                            insert: formatted,
+                        },
+                        selection,
+                    });
+                };
+                save();
+                // state 변경 후 true 리턴
+                return true;
+            },
+        },
+    ]);
 
     useEffect(() => {
         if (!editorRef.current) return;
@@ -38,9 +73,10 @@ const Editor = ({
             doc: editorContent,
             extensions: [
                 basicSetup,
-                html(),
+                highlighterExtension,
                 lineNumbers(),
                 oneDark,
+                customKeyMap,
                 keymap.of([indentWithTab]),
                 EditorView.lineWrapping,
                 EditorView.updateListener.of((update) => {
