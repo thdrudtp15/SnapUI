@@ -1,5 +1,7 @@
-.viewer {
+.viewer_container {
     flex: 1;
     height: 100%;
     padding: 1rem;
+    width: 100%;
+    min-width: 200px;
 }

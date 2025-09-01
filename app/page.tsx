@@ -1,5 +1,6 @@
-import DashBoard from '@/containers/DashBoard';
+import LZString from 'lz-string';
 
+import DashBoard from '@/containers/DashBoard';
 import Viewer from '@/containers/Viewer';
 
 import styles from './page.module.css';
@@ -11,6 +12,8 @@ type Props = {
 
 export default async function Home({ searchParams }: Props) {
     const { html, css } = await searchParams;
+
+    const compressed = LZString.compressToEncodedURIComponent(html);
 
     const formattedHtml = (await formatHtml(html)) || '';
     const formattedCss = (await formatCss(css)) || '';

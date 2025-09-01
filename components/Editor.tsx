@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 import { formatCss, formatHtml } from '@/utils/format';
 import { useRouter } from 'next/navigation';
 
+import styles from './Editor.module.css';
 const Editor = ({ content, queryKey }: { content: string; queryKey: string }) => {
     const [editorContent, setEditorContent] = useState<string>(content);
 
@@ -22,8 +23,6 @@ const Editor = ({ content, queryKey }: { content: string; queryKey: string }) =>
     const router = useRouter();
 
     useEffect(() => {
-        if (!editorContent) return;
-
         const STO = setTimeout(() => {
             const params = new URLSearchParams(window.location.search);
             if (queryKey === 'html') {
@@ -99,7 +98,7 @@ const Editor = ({ content, queryKey }: { content: string; queryKey: string }) =>
         };
     }, []);
 
-    return <div ref={editorRef}></div>;
+    return <div className={styles.editor} ref={editorRef}></div>;
 };
 
 export default Editor;
