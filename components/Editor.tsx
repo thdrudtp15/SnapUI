@@ -49,14 +49,13 @@ const Editor = ({ content, queryKey }: { content: string; queryKey: string }) =>
                     const formatted =
                         queryKey === 'html' ? await formatHtml(doc) : await formatCss(doc);
                     const { selection } = view.state;
-                    view.dispatch({
-                        changes: {
-                            from: 0,
-                            to: view.state.doc.length,
-                            insert: formatted,
-                        },
-                        selection,
-                    });
+
+                    if (formatted) {
+                        view.dispatch({
+                            changes: { from: 0, to: view.state.doc.length, insert: formatted },
+                            selection: { anchor: formatted.length, head: formatted.length }, // 맨 끝으로
+                        });
+                    }
                 };
                 save();
                 // state 변경 후 true 리턴
