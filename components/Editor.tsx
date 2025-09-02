@@ -26,9 +26,9 @@ const Editor = ({ content, queryKey }: { content: string; queryKey: string }) =>
         const STO = setTimeout(() => {
             const params = new URLSearchParams(window.location.search);
             if (queryKey === 'html') {
-                params.set('html', editorContent);
+                params.set('html', editorContent.trim());
             } else if (queryKey === 'css') {
-                params.set('css', editorContent);
+                params.set('css', editorContent.trim());
             }
 
             router.push(`/?${params.toString()}`);

@@ -35,7 +35,6 @@ const Viewer = ({ html, css }: { html: string; css: string }) => {
 
     return (
         <div className={styles.viewer_container}>
-            <button onClick={() => setMode('developer')}>개발자 모드</button>
             <button onClick={() => setMode('designer')}>디자이너 모드</button>
             <button onClick={() => setMode('production')}>프로덕션 모드</button>
             <Render ref={viewerRef} html={html} css={css} mode={mode} />
