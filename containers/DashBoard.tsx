@@ -2,7 +2,7 @@
 import { useRef, useState } from 'react';
 import styles from './DashBoard.module.css';
 import ControlBar from '@/components/ControlBar';
-import Editor from '@/components/Editor';
+import Editors from '@/components/Editors';
 
 const DashBoard = ({
     formattedHtml,
@@ -33,8 +33,10 @@ const DashBoard = ({
                     Css
                 </button>
             </nav>
-            {select === 'html' && <Editor queryKey="html" content={formattedHtml} />}
-            {select === 'css' && <Editor queryKey="css" content={formattedCss} />}
+            {/* {select === 'html' && <Editor queryKey="html" content={formattedHtml} />}
+            {select === 'css' && <Editor queryKey="css" content={formattedCss} />} */}
+            {select === 'html' && <Editors highlight="html" content={formattedHtml} />}
+            {select === 'css' && <Editors highlight="css" content={formattedCss} />}
             <ControlBar targetRef={dashboard} />
         </div>
     );

@@ -9,34 +9,28 @@ import { css } from '@codemirror/lang-css';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { useEffect, useRef, useState } from 'react';
 import { formatCss, formatHtml } from '@/utils/format';
+
+import { uncommentCss } from '@/utils/uncommentCss';
 import { useRouter } from 'next/navigation';
 
-import styles from './Editor.module.css';
-const Editor = ({ content, queryKey }: { content: string; queryKey: string }) => {
+const Editors = ({ content, highlight }: { content: string; highlight: string }) => {
     const [editorContent, setEditorContent] = useState<string>(content);
 
+    const router = useRouter();
     const editorRef = useRef<HTMLDivElement>(null);
     const viewRef = useRef<EditorView | null>(null);
 
-    const highlighterExtension = queryKey === 'html' ? html() : css();
-
-    const router = useRouter();
+    const highlighterExtension = highlight === 'html' ? html() : css();
 
     useEffect(() => {
+        // 내용 변경 시 url 반영 (디바운스)
         const STO = setTimeout(() => {
             const params = new URLSearchParams(window.location.search);
-            if (queryKey === 'html') {
-                params.set('html', editorContent.trim());
-            } else if (queryKey === 'css') {
-                params.set('css', editorContent.trim());
-            }
-
-            router.push(`/?${params.toString()}`);
+            params.set(highlight, uncommentCss(editorContent));
+            router.replace(`/?${params.toString()}`);
         }, 500);
 
-        return () => {
-            clearTimeout(STO);
-        };
+        return () => clearTimeout(STO);
     }, [editorContent]);
 
     const customKeyMap = keymap.of([
@@ -47,8 +41,7 @@ const Editor = ({ content, queryKey }: { content: string; queryKey: string }) =>
                 const doc = view.state.doc.toString();
                 const save = async () => {
                     const formatted =
-                        queryKey === 'html' ? await formatHtml(doc) : await formatCss(doc);
-                    const { selection } = view.state;
+                        highlight === 'html' ? await formatHtml(doc) : await formatCss(doc);
 
                     if (formatted) {
                         view.dispatch({
@@ -65,8 +58,21 @@ const Editor = ({ content, queryKey }: { content: string; queryKey: string }) =>
     ]);
 
     useEffect(() => {
+        if (viewRef.current && !viewRef.current.hasFocus) {
+            const view = viewRef.current;
+            // 내용 업데이트 (포커스 없을 때만)
+            // 포커스가 있는 상태로 업데이트 할 경우 에디터 커서 및 자동완성 기능 버그 발생
+            const transaction = view.state.update({
+                changes: { from: 0, to: view.state.doc.length, insert: content },
+            });
+            view.update([transaction]);
+        }
+    }, [content]);
+
+    useEffect(() => {
         if (!editorRef.current) return;
         if (viewRef.current) return;
+
         const startState = EditorState.create({
             doc: editorContent,
             extensions: [
@@ -97,7 +103,7 @@ const Editor = ({ content, queryKey }: { content: string; queryKey: string }) =>
         };
     }, []);
 
-    return <div className={styles.editor} ref={editorRef}></div>;
+    return <div ref={editorRef}></div>;
 };
 
-export default Editor;
+export default Editors;
