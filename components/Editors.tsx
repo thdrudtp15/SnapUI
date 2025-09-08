@@ -42,7 +42,6 @@ const Editors = ({ content, highlight }: { content: string; highlight: string })
                 const save = async () => {
                     const formatted =
                         highlight === 'html' ? await formatHtml(doc) : await formatCss(doc);
-
                     if (formatted) {
                         view.dispatch({
                             changes: { from: 0, to: view.state.doc.length, insert: formatted },

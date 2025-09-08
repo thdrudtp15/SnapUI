@@ -1,8 +1,12 @@
 'use client';
 import { useRef, useState } from 'react';
+import Image from 'next/image';
 import styles from './DashBoard.module.css';
 import ControlBar from '@/components/ControlBar';
 import Editors from '@/components/Editors';
+
+import htmlIcon from '@/public/html5.svg';
+import cssIcon from '@/public/css3.svg';
 
 const DashBoard = ({
     formattedHtml,
@@ -23,20 +27,22 @@ const DashBoard = ({
                     className={`${styles.nav_item} ${select === 'html' ? styles.select : ''}`}
                     onClick={() => setSelect('html')}
                 >
-                    Html
+                    <Image src={htmlIcon} width={24} height={24} alt="html icon" priority />
+                    HTML
                 </button>
                 <button
                     type="button"
                     className={`${styles.nav_item} ${select === 'css' ? styles.select : ''}`}
                     onClick={() => setSelect('css')}
                 >
-                    Css
+                    <Image src={cssIcon} width={24} height={24} alt="css icon" priority />
+                    CSS
                 </button>
             </nav>
-            {/* {select === 'html' && <Editor queryKey="html" content={formattedHtml} />}
-            {select === 'css' && <Editor queryKey="css" content={formattedCss} />} */}
-            {select === 'html' && <Editors highlight="html" content={formattedHtml} />}
-            {select === 'css' && <Editors highlight="css" content={formattedCss} />}
+            <div className={styles.editor_wrap}>
+                {select === 'html' && <Editors highlight="html" content={formattedHtml} />}
+                {select === 'css' && <Editors highlight="css" content={formattedCss} />}
+            </div>
             <ControlBar targetRef={dashboard} />
         </div>
     );

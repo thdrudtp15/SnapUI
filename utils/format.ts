@@ -12,7 +12,7 @@ export const formatHtml = async (html: string) => {
             printWidth: 30,
             tabWidth: 2,
             useTabs: false,
-            htmlWhitespaceSensitivity: 'ignore',
+            // htmlWhitespaceSensitivity: 'ignore',
         });
         return result;
     } catch (e) {
@@ -30,7 +30,7 @@ export const formatCss = async (css: string) => {
             plugins: [parserCss],
             printWidth: 30,
             useTabs: false,
-            htmlWhitespaceSensitivity: 'ignore',
+            // htmlWhitespaceSensitivity: 'ignore',
         });
         return result;
     } catch (e) {

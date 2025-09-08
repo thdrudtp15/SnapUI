@@ -1,6 +1,7 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 import styles from './Render.module.css';
 import UiControl from './UiControl';
+import { scopeCSS } from '@/utils/scopeCss';
 
 const Render = ({
     html,
@@ -13,6 +14,8 @@ const Render = ({
 }) => {
     const [selectTag, setSelectTag] = useState<HTMLElement | null>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
+
+    console.log(scopeCSS(css, 'preview'));
 
     const onClickEvent = (e: MouseEvent) => {
         setSelectTag(e.target as HTMLElement);
@@ -30,7 +33,7 @@ const Render = ({
                 <meta charset="UTF-8" />
                 <style>
                 ${css || ''}
-                 body { margin: 0; }  
+                 body { margin: 0; height : 100%;}  
                 </style>
               </head>
               <body>
@@ -75,7 +78,7 @@ const Render = ({
     }, [mode, html, css]);
 
     return (
-        <div>
+        <div style={{ height: 'fit-content' }}>
             <iframe
                 ref={iframeRef}
                 sandbox="allow-scripts allow-same-origin"

@@ -12,6 +12,7 @@ const Viewer = ({ html, css }: { html: string; css: string }) => {
         <div className={styles.viewer_container}>
             <button onClick={() => setMode('designer')}>디자이너 모드</button>
             <button onClick={() => setMode('production')}>프로덕션 모드</button>
+            <button>배경 색상 선택</button>
             <Render html={html} css={css} mode={mode} />
         </div>
     );
