@@ -1,12 +1,12 @@
 'use client';
 import { useRef, useState } from 'react';
-import Image from 'next/image';
+
 import styles from './DashBoard.module.css';
 import ControlBar from '@/components/ControlBar';
 import Editors from '@/components/Editors';
 
-import htmlIcon from '@/public/html5.svg';
-import cssIcon from '@/public/css3.svg';
+import { FaHtml5 } from 'react-icons/fa6';
+import { FaCss3Alt } from 'react-icons/fa';
 
 const DashBoard = ({
     formattedHtml,
@@ -27,7 +27,7 @@ const DashBoard = ({
                     className={`${styles.nav_item} ${select === 'html' ? styles.select : ''}`}
                     onClick={() => setSelect('html')}
                 >
-                    <Image src={htmlIcon} width={24} height={24} alt="html icon" priority />
+                    <FaHtml5 fontSize={24} color="#E44D26" />
                     HTML
                 </button>
                 <button
@@ -35,7 +35,7 @@ const DashBoard = ({
                     className={`${styles.nav_item} ${select === 'css' ? styles.select : ''}`}
                     onClick={() => setSelect('css')}
                 >
-                    <Image src={cssIcon} width={24} height={24} alt="css icon" priority />
+                    <FaCss3Alt fontSize={24} color="#1572B6" />
                     CSS
                 </button>
             </nav>

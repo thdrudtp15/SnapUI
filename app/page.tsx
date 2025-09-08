@@ -2,6 +2,7 @@ import LZString from 'lz-string';
 
 import DashBoard from '@/containers/DashBoard';
 import Viewer from '@/containers/Viewer';
+import Header from '@/components/Header';
 
 import styles from './page.module.css';
 import { formatHtml, formatCss } from '@/utils/format';

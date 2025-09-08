@@ -1,19 +1,26 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import Render from '@/components/Render';
+import { LuMousePointerClick } from 'react-icons/lu';
 
 import styles from './Viewer.module.css';
 
 const Viewer = ({ html, css }: { html: string; css: string }) => {
-    const [mode, setMode] = useState<'developer' | 'designer' | 'production'>('developer');
+    const [isEdit, setIsEdit] = useState(false);
 
     return (
         <div className={styles.viewer_container}>
-            <button onClick={() => setMode('designer')}>디자이너 모드</button>
-            <button onClick={() => setMode('production')}>프로덕션 모드</button>
-            <button>배경 색상 선택</button>
-            <Render html={html} css={css} mode={mode} />
+            <nav className={styles.nav}>
+                <button
+                    className={styles.nav_item}
+                    onClick={() => setIsEdit((prev: boolean) => !prev)}
+                >
+                    <LuMousePointerClick fontSize={24} />
+                    디자이너 모드
+                </button>
+            </nav>
+            <Render html={html} css={css} mode={isEdit} />
         </div>
     );
 };
