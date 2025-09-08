@@ -1,5 +1,6 @@
 'use client';
 import { useRef, useState } from 'react';
+import { Anton } from 'next/font/google';
 
 import styles from './DashBoard.module.css';
 import ControlBar from '@/components/ControlBar';

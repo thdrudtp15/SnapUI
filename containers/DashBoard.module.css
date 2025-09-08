@@ -21,6 +21,8 @@
     color: var(--foreground);
     gap: 0.5rem;
     line-height: 100%;
+    font-weight: 600;
+    font-size: 1.25rem;
 }
 .nav_item:hover {
     transition: 0.2s;

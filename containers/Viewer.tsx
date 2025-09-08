@@ -13,11 +13,11 @@ const Viewer = ({ html, css }: { html: string; css: string }) => {
         <div className={styles.viewer_container}>
             <nav className={styles.nav}>
                 <button
-                    className={styles.nav_item}
+                    className={`${styles.nav_item} ${isEdit ? styles.edit_on : null}`}
                     onClick={() => setIsEdit((prev: boolean) => !prev)}
                 >
                     <LuMousePointerClick fontSize={24} />
-                    디자이너 모드
+                    Highlight Styles
                 </button>
             </nav>
             <Render html={html} css={css} mode={isEdit} />

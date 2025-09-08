@@ -1,7 +1,7 @@
 .controlBar {
     position: absolute;
     height: 100%;
-    width: 3px;
+    width: 6px;
     background-color: var(--border);
     z-index: 9999;
     top: 0;

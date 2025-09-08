@@ -26,14 +26,15 @@
     color: var(--foreground);
     gap: 0.5rem;
     line-height: 100%;
+    font-size: 1.25rem;
+    font-weight: 600;
 }
 .nav_item:hover {
     transition: 0.2s;
     background-color: var(--hover-bg);
 }
 
-.select {
-    background-color: var(--editor-bg);
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
+.edit_on {
+    color: rgb(175, 59, 230);
+    transition: 0.5s;
 }
