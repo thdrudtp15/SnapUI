@@ -50,9 +50,19 @@ const Render = ({ html, css, mode }: { html: string; css: string; mode: boolean 
                 dangerouslySetInnerHTML={{
                     __html: `${html || ''} 
                     <style>
-                    #preview_wrap .highlight-for-mode {
-                        border : 2px solid black;
+                    #preview_wrap .highlight-for-mode  {
+                        position: relative; 
                     }
+                        
+                    #preview_wrap .highlight-for-mode::after {
+                        content: '';
+                        position: absolute;
+                        top: 0; left: 0; right: 0; bottom: 0;
+                        border: 3px dotted black;
+                        pointer-events: none; 
+                        box-sizing: border-box;
+                    }
+
                     ${scopeCSS(css, '#preview_wrap') || ''}
                     </style>`,
                 }}
