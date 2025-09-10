@@ -8,7 +8,13 @@ const Render = ({ html, css, mode }: { html: string; css: string; mode: boolean 
     const ref = useRef<HTMLDivElement | null>(null);
 
     const onClickElement = (e: MouseEvent) => {
-        if ((e.target && !ref.current?.contains(e.target as Node)) || e.target === ref.current) {
+        const { id } = e.target as HTMLElement;
+
+        if (
+            (e.target && !ref.current?.contains(e.target as Node)) ||
+            e.target === ref.current ||
+            id === '_656d707479'
+        ) {
             setSelectTag(null);
             return;
         }
@@ -17,6 +23,7 @@ const Render = ({ html, css, mode }: { html: string; css: string; mode: boolean 
 
     const highlightModeMouseover = (e: MouseEvent) => {
         const element = e.target as HTMLElement;
+        if (element.id === '_656d707479') return;
         element.classList.add('highlight-for-mode');
     };
 
@@ -48,8 +55,17 @@ const Render = ({ html, css, mode }: { html: string; css: string; mode: boolean 
             <div
                 id={`preview_wrap`}
                 dangerouslySetInnerHTML={{
-                    __html: `${html || ''} 
+                    __html: `${html || '<div id="_656d707479">HTML을 입력해주세요.</div>'} 
                     <style>
+                    #preview_wrap #_656d707479 {
+                        color : var(--muted);
+                        font-size : 36px;
+                    }
+                    #preview_wrap .is_empty {
+                        font-size : 36px;
+                        color : var(--muted);
+                    }
+
                     #preview_wrap .highlight-for-mode  {
                         position: relative; 
                     }
