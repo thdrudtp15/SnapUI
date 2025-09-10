@@ -1,4 +1,5 @@
 'use client';
+import { useEffect, useRef, useState } from 'react';
 
 import { basicSetup, EditorView } from 'codemirror';
 import { EditorState } from '@codemirror/state';
@@ -7,10 +8,10 @@ import { indentWithTab } from '@codemirror/commands';
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
 import { oneDark } from '@codemirror/theme-one-dark';
-import { useEffect, useRef, useState } from 'react';
-import { formatCss, formatHtml } from '@/utils/format';
 
+import { formatCss, formatHtml } from '@/utils/format';
 import { uncommentCss } from '@/utils/uncommentCss';
+
 import { useRouter } from 'next/navigation';
 
 const Editors = ({ content, highlight }: { content: string; highlight: string }) => {
@@ -35,22 +36,27 @@ const Editors = ({ content, highlight }: { content: string; highlight: string })
 
     const customKeyMap = keymap.of([
         {
-            key: 'Mod-s', // Ctrl+S (Win/Linux), Cmd+S (Mac)
+            key: 'Mod-s', // Ctrl+S or Cmd+S
             preventDefault: true,
             run: (view) => {
                 const doc = view.state.doc.toString();
+                const { anchor, head } = view.state.selection.main; // 현재 커서 위치 저장
+
                 const save = async () => {
                     const formatted =
                         highlight === 'html' ? await formatHtml(doc) : await formatCss(doc);
                     if (formatted) {
+                        const newLen = formatted.length;
+                        const safeAnchor = Math.min(anchor, newLen);
+                        const safeHead = Math.min(head, newLen);
+
                         view.dispatch({
                             changes: { from: 0, to: view.state.doc.length, insert: formatted },
-                            selection: { anchor: formatted.length, head: formatted.length }, // 맨 끝으로
+                            selection: { anchor: safeAnchor, head: safeHead }, // 안전한 위치로 복원
                         });
                     }
                 };
                 save();
-                // state 변경 후 true 리턴
                 return true;
             },
         },

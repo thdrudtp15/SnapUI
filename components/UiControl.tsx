@@ -33,9 +33,6 @@ const UiControl = ({ selectTag }: { selectTag: HTMLElement | null }) => {
 
     return (
         <aside className={styles.controller}>
-            {/** 랜더링 요소 미리보기 느낌 */}
-            <div></div>
-            {/** 스타일 컨트롤 부 */}
             <div>{selectTag && <Editors content={extractCss} highlight="css" />}</div>
         </aside>
     );
