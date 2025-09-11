@@ -25,6 +25,7 @@ const Editors = ({ content, highlight }: { content: string; highlight: string })
 
     useEffect(() => {
         // 내용 변경 시 url 반영 (디바운스)
+        if (editorContent === content) return;
         const STO = setTimeout(() => {
             const params = new URLSearchParams(window.location.search);
             params.set(highlight, uncommentCss(editorContent));
