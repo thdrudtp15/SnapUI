@@ -19,12 +19,13 @@ const Render = ({
 
     const onClickElement = (e: MouseEvent) => {
         const { id } = e.target as HTMLElement;
-        console.log(e.target);
 
         if (
             (e.target && !ref.current?.contains(e.target as Node)) ||
             e.target === ref.current ||
-            id === '_656d707479'
+            // placeholder 엘리먼트 제외
+            id === '_656d707479' ||
+            id === 'preview_wrap__x9zq8_vn3l0'
         ) {
             setSelectTag(null);
             return;
@@ -57,7 +58,7 @@ const Render = ({
         const element = e.target as HTMLElement;
         const selector = getSelector(element);
 
-        if (ref.current && !selectTag) {
+        if (ref.current) {
             ref.current.querySelectorAll(selector).forEach((el) => {
                 el.classList.remove('highlight-for-mode');
             });
@@ -83,32 +84,31 @@ const Render = ({
     }, [mode]);
 
     return (
-        <div className={styles.renderer}>
+        <div className={styles.renderer} ref={ref}>
             <div
-                id={`preview_wrap`}
-                ref={ref}
+                id={`preview_wrap__x9zq8_vn3l0`}
                 style={{ backgroundColor: bg, minHeight: '100%' }}
                 dangerouslySetInnerHTML={{
                     __html: `${html || '<div id="_656d707479">HTML을 입력해주세요.</div>'}`,
                 }}
-            ></div>
+            />
             <style>
-                {`#preview_wrap #_656d707479 {
+                {`#preview_wrap__x9zq8_vn3l0 #_656d707479 {
                         color : var(--muted);
                         font-size : 36px;
                         text-shadow: 0 0 2px rgba(0,0,0,0.5);
                         mix-blend-mode: difference; 
                     }
-                    #preview_wrap .is_empty {
+                    #preview_wrap__x9zq8_vn3l0 .is_empty {
                         font-size : 36px;
                         color : var(--muted);
                     }
 
-                    #preview_wrap .highlight-for-mode  {
+                    #preview_wrap__x9zq8_vn3l0 .highlight-for-mode  {
                         position: relative; 
                     }
                         
-                    #preview_wrap .highlight-for-mode::after {
+                    #preview_wrap__x9zq8_vn3l0 .highlight-for-mode::after {
                         content: '';
                         position: absolute;
                         top: 0; left: 0; right: 0; bottom: 0;
@@ -117,7 +117,7 @@ const Render = ({
                         box-sizing: border-box;
                     }
 
-                    ${scopeCSS(css, '#preview_wrap') || ''}`}
+                    ${scopeCSS(css, '#preview_wrap__x9zq8_vn3l0') || ''}`}
             </style>
             <UiControl selectTag={selectTag} enable={selectTag && mode} />
         </div>

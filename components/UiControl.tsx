@@ -1,5 +1,6 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
+import { forwardRef } from 'react';
 import styles from './UiControl.module.css';
 
 import React, { useEffect, useState } from 'react';
@@ -38,7 +39,10 @@ const UiControl = ({
     }, [selectTag, css]);
 
     return (
-        <aside className={`${styles.controller} ${enable ? styles.enable : null}`}>
+        <aside
+            id="ui-controller"
+            className={`${styles.controller} ${enable ? styles.enable : null}`}
+        >
             {selectTag && <Editors content={extractCss} highlight="css" />}
         </aside>
     );
