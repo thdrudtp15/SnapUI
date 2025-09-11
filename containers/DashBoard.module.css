@@ -7,34 +7,16 @@
     min-width: 200px;
 }
 
-.nav {
+.guide {
+    position: absolute;
+    bottom: 4rem;
+    color: rgba(128, 128, 128, 0.459);
+    width: 100%;
     display: flex;
-    border-bottom: 1px solid var(--border);
-}
-.nav_item {
-    display: flex;
+    /* justify-content: center; */
     align-items: center;
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-    padding: 0.7rem 1rem;
-    color: var(--foreground);
-    gap: 0.5rem;
-    line-height: 100%;
-    font-weight: 600;
-    font-size: 1.25rem;
+    flex-direction: column;
 }
-.nav_item:hover {
-    transition: 0.2s;
-    background-color: var(--hover-bg);
-}
-
-.select {
-    background-color: var(--editor-bg);
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-}
-
 .editor_wrap {
     flex: 1;
     background-color: var(--editor-bg);

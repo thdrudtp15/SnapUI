@@ -1,7 +1,6 @@
 'use client';
 import { useRef, useState } from 'react';
 import { Anton } from 'next/font/google';
-
 import styles from './DashBoard.module.css';
 import SectionControlBar from '@/components/SectionControlBar';
 import Editors from '@/components/Editors';
@@ -9,6 +8,9 @@ import Editors from '@/components/Editors';
 import { FaHtml5 } from 'react-icons/fa6';
 import { FaCss3Alt } from 'react-icons/fa';
 import ActionPanel from '@/components/ActionPanel';
+
+import { FaWindows } from 'react-icons/fa';
+import { FaApple } from 'react-icons/fa';
 
 const DashBoard = ({
     formattedHtml,
@@ -40,6 +42,15 @@ const DashBoard = ({
                 {select === 'html' && <Editors highlight="html" content={formattedHtml} />}
                 {select === 'css' && <Editors highlight="css" content={formattedCss} />}
             </div>
+            <div className={styles.guide}>
+                <span>
+                    <FaWindows fontSize={14} /> Ctrl + S 포메팅
+                </span>
+                <span>
+                    <FaApple /> Cmd + S 포메팅
+                </span>
+            </div>
+
             <SectionControlBar targetRef={dashboard} />
         </div>
     );
