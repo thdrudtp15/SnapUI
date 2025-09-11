@@ -1,14 +1,25 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './Render.module.css';
 import UiControl from './UiControl';
 import { scopeCSS } from '@/utils/scopeCss';
 
-const Render = ({ html, css, mode }: { html: string; css: string; mode: boolean }) => {
+const Render = ({
+    html,
+    css,
+    mode,
+    bg,
+}: {
+    html: string;
+    css: string;
+    mode: boolean;
+    bg: string;
+}) => {
     const [selectTag, setSelectTag] = useState<HTMLElement | null>(null);
     const ref = useRef<HTMLDivElement | null>(null);
 
     const onClickElement = (e: MouseEvent) => {
         const { id } = e.target as HTMLElement;
+        console.log(e.target);
 
         if (
             (e.target && !ref.current?.contains(e.target as Node)) ||
@@ -21,15 +32,36 @@ const Render = ({ html, css, mode }: { html: string; css: string; mode: boolean 
         setSelectTag(e.target as HTMLElement);
     };
 
+    const getSelector = (element: HTMLElement) => {
+        const selector = element.id
+            ? `#${element.id}`
+            : element.className
+              ? `.${element.className.split(' ').join('.')}`
+              : element.tagName;
+        return selector;
+    };
+
     const highlightModeMouseover = (e: MouseEvent) => {
         const element = e.target as HTMLElement;
         if (element.id === '_656d707479') return;
-        element.classList.add('highlight-for-mode');
+
+        const selector = getSelector(element);
+        if (ref.current) {
+            ref.current.querySelectorAll(selector).forEach((el) => {
+                el.classList.add('highlight-for-mode');
+            });
+        }
     };
 
     const highlightModeMouseout = (e: MouseEvent) => {
         const element = e.target as HTMLElement;
-        element.classList.remove('highlight-for-mode');
+        const selector = getSelector(element);
+
+        if (ref.current && !selectTag) {
+            ref.current.querySelectorAll(selector).forEach((el) => {
+                el.classList.remove('highlight-for-mode');
+            });
+        }
     };
 
     useEffect(() => {
@@ -48,12 +80,14 @@ const Render = ({ html, css, mode }: { html: string; css: string; mode: boolean 
             element.removeEventListener('mouseover', highlightModeMouseover);
             element.removeEventListener('mouseout', highlightModeMouseout);
         };
-    }, [ref.current, mode]);
+    }, [mode]);
 
     return (
-        <div className={styles.renderer} ref={ref}>
+        <div className={styles.renderer}>
             <div
                 id={`preview_wrap`}
+                ref={ref}
+                style={{ backgroundColor: bg, minHeight: '100%' }}
                 dangerouslySetInnerHTML={{
                     __html: `${html || '<div id="_656d707479">HTML을 입력해주세요.</div>'}`,
                 }}
@@ -62,6 +96,8 @@ const Render = ({ html, css, mode }: { html: string; css: string; mode: boolean 
                 {`#preview_wrap #_656d707479 {
                         color : var(--muted);
                         font-size : 36px;
+                        text-shadow: 0 0 2px rgba(0,0,0,0.5);
+                        mix-blend-mode: difference; 
                     }
                     #preview_wrap .is_empty {
                         font-size : 36px;
@@ -83,9 +119,9 @@ const Render = ({ html, css, mode }: { html: string; css: string; mode: boolean 
 
                     ${scopeCSS(css, '#preview_wrap') || ''}`}
             </style>
-            {selectTag && mode && <UiControl selectTag={selectTag} />}
+            <UiControl selectTag={selectTag} enable={selectTag && mode} />
         </div>
     );
 };
 
-export default Render;
+export default React.memo(Render);

@@ -7,7 +7,13 @@ import React, { useEffect, useState } from 'react';
 import Editors from './Editors';
 import { extractCSSRules } from '@/utils/extractCssRules';
 
-const UiControl = ({ selectTag }: { selectTag: HTMLElement | null }) => {
+const UiControl = ({
+    selectTag,
+    enable,
+}: {
+    selectTag: HTMLElement | null;
+    enable: boolean | null;
+}) => {
     const [extractCss, setExtractCss] = useState<string>('');
 
     const searchParams = useSearchParams();
@@ -32,8 +38,8 @@ const UiControl = ({ selectTag }: { selectTag: HTMLElement | null }) => {
     }, [selectTag, css]);
 
     return (
-        <aside className={styles.controller}>
-            <div>{selectTag && <Editors content={extractCss} highlight="css" />}</div>
+        <aside className={`${styles.controller} ${enable ? styles.enable : null}`}>
+            {selectTag && <Editors content={extractCss} highlight="css" />}
         </aside>
     );
 };

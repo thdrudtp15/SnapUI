@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { basicSetup, EditorView } from 'codemirror';
 import { EditorState } from '@codemirror/state';
-import { keymap, lineNumbers } from '@codemirror/view';
+import { keymap, lineNumbers, placeholder } from '@codemirror/view';
 import { indentWithTab } from '@codemirror/commands';
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
@@ -86,6 +86,7 @@ const Editors = ({ content, highlight }: { content: string; highlight: string })
                 lineNumbers(),
                 oneDark,
                 customKeyMap,
+                placeholder(`여기에 ${highlight} 코드를 입력하세요.`),
                 keymap.of([indentWithTab]),
                 EditorView.lineWrapping,
                 EditorView.updateListener.of((update) => {

@@ -5,22 +5,36 @@ import Render from '@/components/Render';
 import { LuMousePointerClick } from 'react-icons/lu';
 
 import styles from './Viewer.module.css';
+import { useSearchParams } from 'next/navigation';
+import BgColorPicker from '@/components/BgColorPicker';
+import ActionPanel from '@/components/ActionPanel';
 
 const Viewer = ({ html, css }: { html: string; css: string }) => {
+    const searchParams = useSearchParams();
+    const bg = searchParams.get('bg');
+
     const [isEdit, setIsEdit] = useState(false);
 
     return (
         <div className={styles.viewer_container}>
-            <nav className={styles.nav}>
+            <ActionPanel>
                 <button
-                    className={`${styles.nav_item} ${isEdit ? styles.edit_on : null}`}
+                    className={`${styles.nav_item} ${isEdit ? styles['edit_on'] : null}`}
                     onClick={() => setIsEdit((prev: boolean) => !prev)}
                 >
                     <LuMousePointerClick fontSize={24} />
                     Highlight Styles
+                    {/* <span
+                        onClick={(e) => {
+                            e.stopPropagation();
+                        }}
+                    >
+                        <FaRegQuestionCircle fontSize={12} />
+                    </span> */}
                 </button>
-            </nav>
-            <Render html={html} css={css} mode={isEdit} />
+                <BgColorPicker />
+            </ActionPanel>
+            <Render html={html} css={css} bg={bg as string} mode={isEdit} />
         </div>
     );
 };

@@ -1,22 +1,9 @@
-.viewer_container {
-    flex: 1;
-    height: 100%;
-    width: 100%;
+.action_panel {
     display: flex;
-    flex-direction: column;
-}
-
-.viewer_options {
-    padding: 0.625rem;
-    border-bottom: 1px solid var(--border);
-    /* margin-bottom: 1rem; */
-}
-
-.nav {
-    display: flex;
+    align-items: center;
     border-bottom: 1px solid var(--border);
 }
-.nav_item {
+.panel_button {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -26,15 +13,16 @@
     color: var(--foreground);
     gap: 0.5rem;
     line-height: 100%;
-    font-size: 1.25rem;
     font-weight: 600;
+    font-size: 1.25rem;
 }
-.nav_item:hover {
+.panel_button:hover {
     transition: 0.2s;
     background-color: var(--hover-bg);
 }
 
-.edit_on {
-    color: rgb(235, 238, 69);
-    transition: 0.5s;
+.select {
+    background-color: var(--editor-bg);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
 }

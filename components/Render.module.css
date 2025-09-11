@@ -2,6 +2,13 @@
     overflow: auto;
     padding: 0.5rem 0.7rem;
     flex: 1;
-    background: white;
     color: black;
+    background-color: #ffffff; /* 기본 배경 */
+    background-image: repeating-linear-gradient(
+        45deg,
+        /* 45도 사선 */ rgba(0, 0, 0, 0.05),
+        /* 선 색상 (반투명) */ rgba(0, 0, 0, 0.05) 10px,
+        transparent 10px,
+        transparent 20px
+    );
 }
