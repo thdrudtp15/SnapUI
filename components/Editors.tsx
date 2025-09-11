@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-
+import LZString from 'lz-string';
 import { basicSetup, EditorView } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { keymap, lineNumbers, placeholder } from '@codemirror/view';
@@ -28,7 +28,10 @@ const Editors = ({ content, highlight }: { content: string; highlight: string })
         if (editorContent === content) return;
         const STO = setTimeout(() => {
             const params = new URLSearchParams(window.location.search);
-            params.set(highlight, uncommentCss(editorContent));
+            params.set(
+                highlight,
+                LZString.compressToEncodedURIComponent(uncommentCss(editorContent)),
+            );
             router.replace(`/?${params.toString()}`);
         }, 500);
 

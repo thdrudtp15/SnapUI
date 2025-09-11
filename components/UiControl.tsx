@@ -1,6 +1,6 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import { forwardRef } from 'react';
+import LZString from 'lz-string';
 import styles from './UiControl.module.css';
 
 import React, { useEffect, useState } from 'react';
@@ -28,11 +28,10 @@ const UiControl = ({
         const classList = Array.from(selectTag.classList);
         const id = selectTag.id;
         const findProperty = () => {
-            const result = extractCSSRules(css as string, [
-                tagName.toLowerCase(),
-                ...classList.map((item) => `.${item}`),
-                `#${id}`,
-            ]);
+            const result = extractCSSRules(
+                LZString.decompressFromEncodedURIComponent(css as string) as string,
+                [tagName.toLowerCase(), ...classList.map((item) => `.${item}`), `#${id}`],
+            );
             setExtractCss(result);
         };
         findProperty();
