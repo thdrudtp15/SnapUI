@@ -29,7 +29,7 @@ const UiControl = ({
         const id = selectTag.id;
         const findProperty = () => {
             const result = extractCSSRules(
-                LZString.decompressFromEncodedURIComponent(css as string) as string,
+                LZString.decompressFromEncodedURIComponent(css as string),
                 [tagName.toLowerCase(), ...classList.map((item) => `.${item}`), `#${id}`],
             );
             setExtractCss(result);

@@ -11,7 +11,7 @@ import ActionPanel from '@/components/ActionPanel';
 
 const Viewer = ({ html, css }: { html: string; css: string }) => {
     const searchParams = useSearchParams();
-    const bg = searchParams.get('bg');
+    const bg = searchParams.get('bg') || '#ffffff';
 
     const [isEdit, setIsEdit] = useState(false);
 
