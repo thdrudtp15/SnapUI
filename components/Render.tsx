@@ -55,9 +55,11 @@ const Render = ({ html, css, mode }: { html: string; css: string; mode: boolean 
             <div
                 id={`preview_wrap`}
                 dangerouslySetInnerHTML={{
-                    __html: `${html || '<div id="_656d707479">HTML을 입력해주세요.</div>'} 
-                    <style>
-                    #preview_wrap #_656d707479 {
+                    __html: `${html || '<div id="_656d707479">HTML을 입력해주세요.</div>'}`,
+                }}
+            ></div>
+            <style>
+                {`#preview_wrap #_656d707479 {
                         color : var(--muted);
                         font-size : 36px;
                     }
@@ -79,10 +81,8 @@ const Render = ({ html, css, mode }: { html: string; css: string; mode: boolean 
                         box-sizing: border-box;
                     }
 
-                    ${scopeCSS(css, '#preview_wrap') || ''}
-                    </style>`,
-                }}
-            ></div>
+                    ${scopeCSS(css, '#preview_wrap') || ''}`}
+            </style>
             {selectTag && mode && <UiControl selectTag={selectTag} />}
         </div>
     );
